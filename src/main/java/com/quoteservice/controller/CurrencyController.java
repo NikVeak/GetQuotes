@@ -1,7 +1,9 @@
 package com.quoteservice.controller;
 
 import com.quoteservice.service.CurrencyService;
+import com.quoteservice.service.KafkaSender;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,43 +16,28 @@ import java.util.Map;
 public class CurrencyController
 {
     private final CurrencyService currencyService;
-
+    @Autowired
+    KafkaSender kafkaSender;
     @GetMapping("/currency/dollar")
-    public Map<String, Object> getDollar()
+    public void getDollar()
     {
         Map<String, Object>  data = currencyService.getCurrencyDollar();
-        return data;
+        kafkaSender.sendMessage(data, "topicStock");
     }
 
     @GetMapping("/currency/hongkongdollar")
-    public Map<String, Object> getHKD()
+    public void getHKD()
     {
         Map<String, Object>  data = currencyService.getCurrencyHKD();
-        return data;
+        kafkaSender.sendMessage(data, "topicStock");
     }
 
     @GetMapping("/currency/cny")
-    public Map<String, Object> getCNY()
+    public void getCNY()
     {
         Map<String, Object>  data = currencyService.getCurrencyCNY();
-        return data;
+        kafkaSender.sendMessage(data, "topicStock");
     }
-    /*@GetMapping("/currency/dollar")
-    public Map<String, Object> getCurrencyUSD()
-    {
-        Map<String, Object> dat = currencyService.getCurrencyInfoUSDRUB();
-        return dat;
-    }
-    @GetMapping("/currency/cny")
-    public  Map<String, Object> getCurrencyCNY()
-    {
-        Map<String, Object> dat = currencyService.getCurrencyInfoCNYRUB();
-        return dat;
-    }
-    @GetMapping("/currency/hkd")
-    public  Map<String, Object> getCurrencyHKD()
-    {
-        Map<String, Object> dat = currencyService.getCurrencyInfoHKDRUB();
-        return dat;
-    }*/
+
 }
+
