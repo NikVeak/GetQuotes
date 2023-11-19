@@ -16,6 +16,7 @@ public class KafkaSender {
     }
 
     public void sendMessage(Map<String, Object> message, String topicName) {
+        System.out.println(message);
         kafkaTemplate.send(topicName, message);
     }
 }

@@ -22,21 +22,21 @@ public class CurrencyController
     public void getDollar()
     {
         Map<String, Object>  data = currencyService.getCurrencyDollar();
-        kafkaSender.sendMessage(data, "topicStock");
+        kafkaSender.sendMessage(data, "topicDollar");
     }
 
     @GetMapping("/currency/hongkongdollar")
     public void getHKD()
     {
         Map<String, Object>  data = currencyService.getCurrencyHKD();
-        kafkaSender.sendMessage(data, "topicStock");
+        kafkaSender.sendMessage(data, "topicHKD");
     }
 
     @GetMapping("/currency/cny")
     public void getCNY()
     {
         Map<String, Object>  data = currencyService.getCurrencyCNY();
-        kafkaSender.sendMessage(data, "topicStock");
+        kafkaSender.sendMessage(data, "topicCNY");
     }
 
 }

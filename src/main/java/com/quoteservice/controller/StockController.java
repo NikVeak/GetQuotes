@@ -30,37 +30,44 @@ public class StockController {
     }
     //---------------------------------------------
 
+    //-----------------------------------------------
+    // получение текущей цены одной акции
+    @GetMapping("/stock/{symbol}")
+    public void getStockInfo(String symbol) throws IOException{
+        Map<String, Object> response = stockService.getStockInfo(symbol);
+        kafkaSender.sendMessage(response, "topicOneStock");
+    }
+    //--------------------------------------------------
+
     // запрос цены акции за месяц
     //------------------------------------------------------
-    @GetMapping("/stocks/month/{symbols}")
+    @GetMapping("/stocks/month/{symbol}")
     public void getStockMonth(String symbol) throws IOException {
         Map<String, Object> response  = stockService.getStockHistoryMonth(symbol);
-        kafkaSender.sendMessage(response, "topicStock");
+        kafkaSender.sendMessage(response, "topicOneStockMonth");
     }
     //----------------------------------------------------------
 
     // запрос цены акции за год
     //------------------------------------------------------
-    @GetMapping("/stocks/year/{symbols}")
+    @GetMapping("/stocks/year/{symbol}")
     public void getStockYeah(String symbol) throws IOException {
         Map<String, Object> response  = stockService.getStockHistoryYear(symbol);
-        kafkaSender.sendMessage(response, "topicStock");
+        kafkaSender.sendMessage(response, "topicOneStockYear");
     }
     //----------------------------------------------------------
 
     // запрос цены акции за 5 лет
     //------------------------------------------------------
-    @GetMapping("/stocks/five_year/{symbols}")
+    @GetMapping("/stocks/five_year/{symbol}")
     public void getStock5Year(String symbol) throws IOException {
         Map<String, Object> response  = stockService.getStockHistory5Year(symbol);
-        kafkaSender.sendMessage(response, "topicStock");
+        kafkaSender.sendMessage(response, "topicOneStock5Year");
     }
     //----------------------------------------------------------
 
 
-    //-----------------------------------------------
-    // получение информации одной акции
-    //--------------------------------------------------
+
 
 
 }
